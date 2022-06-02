@@ -1,8 +1,18 @@
 import React, { useRef, useState } from 'react';
-import { IonApp, IonHeader, IonContent, IonToolbar, 
-  IonTitle, IonGrid, IonRow, IonCol, IonItem, 
-  IonLabel, IonInput, IonButton, IonIcon, IonCard, IonCardContent } from '@ionic/react';
-  import { calculatorOutline, refreshOutline } from 'ionicons/icons';
+import { IonApp, 
+  IonHeader, 
+  IonContent, 
+  IonToolbar, 
+  IonTitle, 
+  IonGrid, 
+  IonRow, 
+  IonCol, 
+  IonItem, 
+  IonLabel, 
+  IonInput, 
+} from '@ionic/react';
+import BmiControls from './components/BmiControls';
+import BmiResult from './components/BmiResult';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,7 +34,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const App: React.FC = () => {
-  const [ calculatedBmi, setCalculateBmi ] = useState<number>();
+  const [ calculatedBmi, setCalculatedBmi ] = useState<number>();
   const weightInputRef = useRef<HTMLIonInputElement>(null);
   const heightInputRef = useRef<HTMLIonInputElement>(null);
 
@@ -39,7 +49,7 @@ const App: React.FC = () => {
 
     const bmi = +enteredWeight / (+enteredHeight * +enteredHeight);
 
-    setCalculateBmi(bmi);
+    setCalculatedBmi(bmi);
 
   };
 
@@ -48,62 +58,43 @@ const App: React.FC = () => {
     heightInputRef.current!.value = '';
   };
 
-  return<IonApp>
-    <IonHeader>
-      <IonToolbar>
-        <IonTitle>BMI Calculator</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent className="ion-padding">
-      <IonGrid>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">
-                Your Height
-              </IonLabel>
-              <IonInput ref={heightInputRef}></IonInput>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">
-                Your Weight
-              </IonLabel>
-              <IonInput ref={weightInputRef}></IonInput>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol className='ion-text-left'>
-            <IonButton onClick={calculateBMI}>
-              <IonIcon slot="start" icon={calculatorOutline}/>
-                Calculate
-            </IonButton>
-          </IonCol>
-          <IonCol className='ion-text-right'>
-            <IonButton onClick={resetInputs}>
-              <IonIcon slot="start"icon={refreshOutline}/>
-                Reset
-            </IonButton>
-          </IonCol>
-        </IonRow>
-        {calculatedBmi && (
+  return (
+    <IonApp>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>BMI Calculator</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="ion-padding">
+        <IonGrid>
           <IonRow>
             <IonCol>
-              <IonCard>
-                <IonCardContent>
-                  <h2>{calculatedBmi}</h2>
-                </IonCardContent>
-              </IonCard>
+              <IonItem>
+                <IonLabel position="floating">
+                  Your Height
+                </IonLabel>
+                <IonInput ref={heightInputRef}></IonInput>
+              </IonItem>
             </IonCol>
           </IonRow>
-        )}
-      </IonGrid>
-    </IonContent>
-  </IonApp>
+          <IonRow>
+            <IonCol>
+              <IonItem>
+                <IonLabel position="floating">
+                  Your Weight
+                </IonLabel>
+                <IonInput ref={weightInputRef}></IonInput>
+              </IonItem>
+            </IonCol>
+          </IonRow>
+         <BmiControls onCalculate={calculateBMI} onReset={resetInputs} />
+          {calculatedBmi && (
+            <BmiResult result={calculatedBmi} />
+          )}
+        </IonGrid>
+      </IonContent>
+    </IonApp>
+  );
 };
 
 export default App;
