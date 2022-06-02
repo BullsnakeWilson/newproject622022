@@ -9,7 +9,8 @@ import { IonApp,
   IonCol, 
   IonItem, 
   IonLabel, 
-  IonInput, 
+  IonInput,
+  setupIonicReact, 
 } from '@ionic/react';
 import BmiControls from './components/BmiControls';
 import BmiResult from './components/BmiResult';
@@ -33,8 +34,10 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+setupIonicReact();
+
 const App: React.FC = () => {
-  const [ calculatedBmi, setCalculatedBmi ] = useState<number>();
+  const [ calculatedBMI, setCalculatedBMI ] = useState<number>();
   const weightInputRef = useRef<HTMLIonInputElement>(null);
   const heightInputRef = useRef<HTMLIonInputElement>(null);
 
@@ -49,7 +52,7 @@ const App: React.FC = () => {
 
     const bmi = +enteredWeight / (+enteredHeight * +enteredHeight);
 
-    setCalculatedBmi(bmi);
+    setCalculatedBMI(bmi);
 
   };
 
@@ -88,8 +91,8 @@ const App: React.FC = () => {
             </IonCol>
           </IonRow>
          <BmiControls onCalculate={calculateBMI} onReset={resetInputs} />
-          {calculatedBmi && (
-            <BmiResult result={calculatedBmi} />
+          {calculatedBMI && (
+            <BmiResult result={calculatedBMI} />
           )}
         </IonGrid>
       </IonContent>
